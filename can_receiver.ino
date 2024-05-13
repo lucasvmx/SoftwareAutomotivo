@@ -6,12 +6,17 @@
 
 long unsigned int rxId;
 unsigned char len = 0;
-unsigned char rxBuf[8];
+unsigned char rxBuf[4];
 char msgString[128];                        // Array to store serial string
 
 #define CAN0_INT 2                              // Set INT to pin 2
 MCP_CAN CAN0(10);                               // Set CS to pin 10
 
+// decodeLong decodifica um array de bytes para um número inteiro
+unsigned long decodeLong(short *n)
+{	
+	return (unsigned long)(((n[0] << 24)) + ((n[1] << 16)) + ((n[2] << 8)) + (n[3]));
+}
 
 void setup()
 {
