@@ -13,7 +13,7 @@ long mapped_speed, mapped_rpm;
 static byte speedBytes[4];
 static byte rpmBytes[4];
 static byte data[4];
-char msgString[128]; 
+char msgString[128];
 
 #define SPEED_SEND_INTERRUPT 2
 #define RPM_SEND_INTERRUPT 3
@@ -53,7 +53,7 @@ byte sendSpeed()
 		Serial.print(msgString);
 	}
 	Serial.println("");
-	
+
 	return CAN0.sendMsgBuf(0x100, 0, 4, speedBytes);
 }
 
@@ -72,7 +72,7 @@ void loop()
 {
 	rpm = analogRead(ECU1_AIN1);
 	velocidade = analogRead(ECU1_AIN2);
-	
+
 	mapped_rpm = map(rpm, 0, 1023, 0, 8000);
 	mapped_speed = map(velocidade, 0, 1023, 0, 220);
 
@@ -81,7 +81,7 @@ void loop()
 
 		sprintf(msgString, "rpm: %ld", mapped_rpm);
 		Serial.println(msgString);
-		
+
 		// enviar a rotação do motor
 		encodeLong(mapped_rpm);
 		memcpy(rpmBytes, data, 4);
@@ -93,11 +93,11 @@ void loop()
 		} else {
 		  Serial.println("falha ao enviar rotação do motor");
 		}
-	} 
-	
+	}
+
 	if(speed_timer == 10) {
 		speed_timer = 0;
-		
+
 		sprintf(msgString, "speed: %ld", mapped_speed);
 		Serial.println(msgString);
 		// enviar a velocidade

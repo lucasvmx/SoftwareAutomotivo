@@ -8,7 +8,7 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <windows.h>
-	
+
 	long map(long x, long in_min, long in_max, long out_min, long out_max);
 #endif
 
@@ -24,16 +24,16 @@ void setup()
 }
 
 void loop()
-{	
+{
 	// L� o valor na porta
 #ifndef DESKTOP
 	velocidade = analogRead(ECU1_AIN1);
-	
+
 	if(Serial.available() > 0)
 	{
 		String incoming = Serial.readString();
-		
-		
+
+
 	}
 #else
 	srand(GetTickCount());
@@ -41,7 +41,7 @@ void loop()
 	printf("valor lido da porta analogica: %ld\n", velocidade);
 #endif
 	rpm = velocidade;
-	
+
 	rpm = map(rpm, 0, 1023, 0, 8000);
 	velocidade = map(velocidade, 0, 1023, 0, 220);
 
