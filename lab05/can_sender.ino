@@ -60,8 +60,8 @@ byte sendSpeed()
 byte sendEngineRpm()
 {
 	Serial.print("RPM FRAME: ");
-	for(byte i = 0; i<sizeof(speedBytes); i++){
-		sprintf(msgString, " 0x%.2X", speedBytes[i]);
+	for(byte i = 0; i<sizeof(rpmBytes); i++){
+		sprintf(msgString, " 0x%.2X", rpmBytes[i]);
 		Serial.print(msgString);
 	}
 	Serial.println("");
