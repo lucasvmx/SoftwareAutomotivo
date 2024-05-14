@@ -13,7 +13,7 @@ char msgString[128];                        // Array to store serial string
 MCP_CAN CAN0(10);                               // Set CS to pin 10
 
 // decodeLong decodifica um array de bytes para um número inteiro
-unsigned long decodeLong(short *n)
+unsigned long decodeLong(unsigned char *n)
 {
 	return (unsigned long)(((n[0] << 24)) + ((n[1] << 16)) + ((n[2] << 8)) + (n[3]));
 }
@@ -44,9 +44,14 @@ void loop()
     if((rxId & 0x80000000) == 0x80000000)     // Determine if ID is standard (11 bits) or extended (29 bits)
       sprintf(msgString, "Extended ID: 0x%.8lX  DLC: %1d  Data:", (rxId & 0x1FFFFFFF), len);
     else
-      sprintf(msgString, "Standard ID: 0x%.3lX       DLC: %1d  Data:", rxId, len);
+      sprintf(msgString, "Standard ID: 0x%.3lX  DLC: %1d  Data:", rxId, len);
 
     Serial.print(msgString);
+
+    unsigned long val = decodeLong(rxBuf);
+
+    sprintf(msgString, "value received: %ld", val);
+    Serial.println(msgString);
 
     if((rxId & 0x40000000) == 0x40000000){    // Determine if message is a remote request frame.
       sprintf(msgString, " REMOTE REQUEST FRAME");
